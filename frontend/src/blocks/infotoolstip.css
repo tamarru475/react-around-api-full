@@ -1,0 +1,124 @@
+.infotoolstip {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    visibility: hidden;
+    display: flex;
+    opacity: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+    z-index: 5;
+    transition: 0.3s linear;
+  }
+  
+  .popup_fadein {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .infotoolstip__container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 470px;
+  }
+  
+  .infotoolstip__close-button {
+    max-width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-self: flex-end;
+    margin-bottom: 3px;
+    background: url(../images/Close_Icon.svg) no-repeat center/cover;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    width: 40px;
+    height: 40px;
+    transition: opacity 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .infotoolstip__close-button:hover {
+    opacity: 0.6;
+    transform: rotate(45deg);
+  }
+  
+  .infotoolstip__content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-self: flex-start;
+    width: 430px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .infotoolstip__seccess_image{
+   margin-top: 60px;
+   align-self: center;
+   max-width: 120px;
+   width: 120px;
+   height: 120px;
+   background: url("../images/success-icon.svg") no-repeat center/cover;
+  }
+
+  .infotoolstip__error_image{
+    margin-top: 60px;
+    align-self: center;
+    max-width: 120px;
+    width: 120px;
+    height: 120px;
+    background: url("../images/error-icon.svg") no-repeat center/cover;
+  }
+
+  .infotoolstip__message{
+    margin: 0;
+    max-width: 358px;
+   font-family: 'Inter', sans-serif;
+   font-style: normal;
+   font-weight: 900;
+   font-size: 24px;
+   line-height: 29px;
+   text-align: center;
+   color: #000000;
+   padding-top: 32px;
+   padding-bottom: 60px;
+   align-self: center;
+
+  }
+
+  @media screen and (max-width: 600px) {
+    .infotoolstip {
+      max-width: 282px;
+    }
+  
+    .infotoolstip__container {
+      width: 282px;
+    }
+  
+    .infotoolstip__close-button {
+      align-self: center;
+      margin-bottom: 20.5px;
+      width: 26px;
+      height: 26px;
+    }
+
+    .infotoolstip__content-container{
+      width: 282px;
+    }
+
+    .infotoolstip__message{
+      max-width: 244px;
+    }
+  }

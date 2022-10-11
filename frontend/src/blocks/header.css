@@ -1,0 +1,140 @@
+.header {
+  max-width: 880px;
+  margin: 0 auto;
+  display: flex;
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+}
+
+.header__container{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header__content-container{
+  max-width: 270px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+
+.header__email{
+  display: flex;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.header__logout{
+  visibility: visible;
+  margin: 0;
+  background: none;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  color: #A9A9A9;
+  cursor: pointer;
+}
+
+.header__button{
+  max-width: 65px;
+  width: 100%;
+  margin: 0;
+  padding-top: 51px;
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: right;
+  color: #FFFFFF;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.header__nav {
+  display: none;
+  flex-direction: column;
+  z-index: 3;
+  right: 35px;
+  top: 35px;
+  padding-top: 35px;
+  padding-bottom: 20px;
+  padding-right: 30px;
+  cursor: pointer;
+  transition: all 0.5s ease-out;
+}
+
+.header__nav .header__nav-line {
+  width: 24px;
+  height: 3px;
+  margin: 0 0 5px 0;
+  background: #FFFFFF;
+  transition: all 0.5s ease-out;
+}
+
+.header__nav-line:hover {
+  opacity: 0.85;
+}
+
+.header__nav-button_active {
+  transform: rotate(180deg);
+}
+
+.header__nav-button_active .header__nav-line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.header__nav-button_active .header__nav-line:nth-child(2) {
+  opacity: 0;
+}
+
+.header__nav-button_active .header__nav-line:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+@media screen and (max-width: 880px) {
+  .header {
+    max-width: 80vw;
+  }
+}
+
+@media screen and (max-width: 630px) {
+  .header {
+    max-width: 320px;
+  }
+
+  .header__content-container{
+   display: none;
+  }
+
+  .header__nav_active{
+    display: flex;
+  }
+
+  .header_active{
+    padding-top: 40px;
+    flex-direction: column-reverse;
+  }
+
+  .header__container-active{
+    border-top: 1px solid rgba(84, 84, 84, 0.7);
+
+  }
+
+  .header__content-container_active{
+    padding-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+  }
+}

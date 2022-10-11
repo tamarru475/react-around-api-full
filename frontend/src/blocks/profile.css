@@ -1,0 +1,230 @@
+.profile {
+  display: flex;
+  max-width: 1280px;
+  width: 100%;
+  margin-top: 40px;
+}
+
+.profile__container {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.profile__image-container {
+  position: relative;
+  width: 120px;;
+  height: 120px;
+  border-radius: 50%;
+}
+
+.profile__image {
+  border-radius: 50%;
+  display: inline;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.profile__image-overlay {
+  width: 26px;
+  height: 26px;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
+  background: url(../images/edit-pen.svg) no-repeat center/cover;
+}
+
+.profile__image-container:hover .profile__image-overlay {
+  opacity: 1;
+}
+
+.profile__image-container:hover .profile__image {
+  opacity: 0.2;
+}
+
+.profile__info {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding-right: 0;
+  padding-top: 22px;
+  padding-left: 30px;
+  max-width: 420px;
+}
+
+.profile__name {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 42px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 48px;
+  letter-spacing: 0em;
+  text-align: left;
+  width: 373px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.profile__name-discription {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.profile__edit-button {
+  background: url("../images/Edit__Button-1.svg") no-repeat center/cover;
+  color: inherit;
+  border: none;
+  margin-top: 15px;
+  margin-left: 18px;
+  width: 24px;
+  height: 24px;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  text-align: center;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.profile__edit-button:hover {
+  opacity: 0.6;
+}
+
+.profile__add-button {
+  display: block;
+  align-self: center;
+  background: url(../images/Add_Button.svg) no-repeat center/cover;
+  color: inherit;
+  border: none;
+  max-width: 150px;
+  width: 100%;
+  height: 50px;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  outline: inherit;
+  border-radius: 2px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.profile__add-button:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 880px) {
+  .profile {
+    max-width: 90vw;
+    margin: 0 auto;
+    padding-top: 40px;
+  }
+
+  .profile__image {
+    max-width: 100px;
+  }
+
+  .profile__info {
+    max-width: 380px;
+    padding-left: 15px;
+  }
+
+  .profile__name {
+    font-size: 30px;
+    line-height: 32px;
+    width: 300px;
+  }
+
+  .profile__name-discription {
+    width: 250px;
+  }
+
+  .profile__edit-button {
+    margin-left: 0px;
+    padding: 0;
+  }
+
+  .profile__add-button {
+    max-width: 100px;
+    width: 100%;
+    border-left: 2px solid white;
+    border-right: 2px solid white;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .profile {
+    margin-top: 42px;
+    flex-direction: column;
+    margin-bottom: 36px;
+  }
+  .profile__container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile__image {
+    margin: 0 auto;
+  }
+
+  .profile__info {
+    padding-top: 22px;
+    padding-left: 0;
+    max-width: 270px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .profile__name {
+    padding: 0px;
+    font-size: 22px;
+    line-height: 27px;
+    text-align: center;
+    width: 196px;
+  }
+
+  .profile__name-discription {
+    padding-top: 14px;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+  }
+
+  .profile__edit-button {
+    width: 100%;
+    min-height: 18px;
+    height: 18px;
+    max-width: 18px;
+    margin-left: 10px;
+    margin-top: 0;
+  }
+
+  .profile__add-button {
+    padding-left: 0;
+    margin-top: 36px;
+    background: url(../images/Add__Button-2.svg);
+    max-width: 100%;
+    width: 282px;
+    border-left: none;
+    border-right: none;
+  }
+}

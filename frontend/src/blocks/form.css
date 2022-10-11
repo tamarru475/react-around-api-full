@@ -1,0 +1,121 @@
+.form {
+  padding-top: 24px;
+  padding-bottom: 36.51px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  border: none;
+  width: 358px;
+}
+
+.form__fieldset {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  border: none;
+}
+
+.form__input {
+  margin-top: 30px;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: left;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  width: 358px;
+}
+
+.form__input_type_error {
+  border-bottom: 1px solid red;
+  opacity: 1;
+}
+
+.form__input-error_active {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #ff0000;
+}
+
+.form__fieldset-button {
+  border: none;
+  margin: 0;
+  padding-left: 0;
+  padding-bottom: 0;
+  padding-right: 0;
+  padding-top: 48px;
+  max-width: 358px;
+}
+
+.form__button {
+  background: #000000;
+  border-radius: 2px;
+  color: #ffffff;
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: center;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  min-height: 50.15px;
+  width: 358px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.form__button:hover {
+  opacity: 0.8;
+}
+
+.form__button_disabled {
+  opacity: 0.2;
+  background: #ffffff;
+  border: 1px solid #000000;
+  color: #000000;
+  box-sizing: border-box;
+  cursor: default;
+}
+
+.form__button_disabled:hover {
+  opacity: 0.2;
+}
+
+@media screen and (max-width: 600px) {
+  .form {
+    padding-top: 76px;
+    padding-bottom: 25px;
+    max-width: 238px;
+    width: 238px;
+  }
+
+  .form__input {
+    width: 100%;
+  }
+
+  .form__fieldset-button {
+    padding-top: 46px;
+    max-width: 100%;
+  }
+
+  .form__button {
+    font-size: 14px;
+    line-height: 17px;
+    width: 100%;
+  }
+}

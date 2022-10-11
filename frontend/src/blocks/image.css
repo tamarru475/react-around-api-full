@@ -1,0 +1,70 @@
+.image {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100%;
+  visibility: hidden;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  z-index: 5;
+  transition: 0.3s linear;
+}
+
+.popup_fadein {
+  visibility: visible;
+  opacity: 1;
+}
+
+.image__container {
+  max-width: 75vw;
+  max-height: 75vh;
+  width: auto;
+  padding: 0;
+}
+
+.image__close-button {
+  max-width: 100%;
+  margin-left: 100%;
+  margin-bottom: 3px;
+  background: url(../images/Close_Icon.svg) no-repeat center/cover;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  width: 40px;
+  height: 40px;
+  transition: opacity 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+}
+
+.image__close-button:hover {
+  opacity: 0.6;
+  transform: rotate(45deg);
+}
+
+.image__popup {
+  height: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+}
+
+.image__discription {
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: left;
+}

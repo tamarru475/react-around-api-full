@@ -1,0 +1,15 @@
+.logo {
+  display: flex;
+  padding-top: 45px;
+  padding-bottom: 41px;
+  max-width: 173px;
+}
+
+@media screen and (max-width: 600px) {
+  .logo {
+    max-width: 126px;
+    padding-left: 27px;
+    padding-top: 28px;
+    padding-bottom: 32px;
+  }
+}

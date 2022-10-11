@@ -1,0 +1,127 @@
+.login{
+  margin: 0 auto;
+  color: #FFFFFF;
+}
+
+
+.login__form-header{
+  margin: 0;
+  padding-top: 60px;
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.login__form{
+  padding-top: 20px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  border: none;
+  width: 358px;
+}
+
+.login__form-fieldset{
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  border: none;
+}
+
+.login__form-input{
+  background: #000000;
+  color: #FFFFFF;
+  margin-top: 30px;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: left;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid #CCCCCC;
+  width: 358px;
+}
+
+.login__form-fieldset_button{
+  border: none;
+  margin: 0;
+  padding-left: 0;
+  padding-bottom: 0;
+  padding-right: 0;
+  padding-top: 216px;
+  max-width: 358px;
+}
+
+.login__form-button{
+  background: #ffffff;
+  border-radius: 2px;
+  color: #000000;
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  min-height: 50.15px;
+  width: 358px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.login__form-button:hover {
+    opacity: 0.8;
+}
+  
+.login__form-button_disabled {
+  opacity: 0.2;
+  background: #000000;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  box-sizing: border-box;
+  cursor: default;
+}
+  
+.login__form-button_disabled:hover {
+ opacity: 0.2;
+}
+
+.login__link{
+  margin-top: 15px;
+  padding-bottom: 80px;
+  display: flex;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+@media screen and (max-width: 600px) {
+  .login__form {
+    width: 320px;
+  }
+
+  .login__form-input{
+    width: 320px;
+  }
+
+  .login__form-button{
+    width: 320px;
+  }
+}
