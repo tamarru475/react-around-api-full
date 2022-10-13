@@ -13,7 +13,7 @@ module.exports.getCards = (req, res) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((cards) => res.send({ data: cards }))
+    .then((cards) => res.send({ cards }))
     .catch((err) => {
       if (err.name === 'Error not Found') {
         return res.status(ErrorNotFound).send({ message: 'Error not found' });
@@ -25,7 +25,7 @@ module.exports.getCards = (req, res) => {
 module.exports.createCard = (req, res) => {
   const { name, link } = req.body;
   Card.create({ name, link, owner: req.user._id })
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(ValidationError).send({ message: 'Error bad request, a validation error has occured' });
@@ -45,7 +45,7 @@ module.exports.deleteCardById = (req, res) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === 'Error not found') {
         return res.status(ErrorNotFound).send({ message: 'Error not found, there is no card with this Id' });
@@ -64,7 +64,7 @@ module.exports.likeCard = (req, res) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((liked) => res.send({ data: liked }))
+    .then((liked) => res.send({ liked }))
     .catch((err) => {
       if (err.name === 'Error not found') {
         return res.status(err.statusCode).send({ message: `${err.name} ${err.statusCode} has accured ${err.message}` });
@@ -83,7 +83,7 @@ module.exports.dislikeCard = (req, res) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((dislikeCard) => res.send({ data: dislikeCard }))
+    .then((dislikeCard) => res.send({ dislikeCard }))
     .catch((err) => {
       if (err.name === 'notFoundError') {
         return res.statu(err.statusCode).send({ message: `${err.name} ${err.statusCode} has accured ${err.message}` });

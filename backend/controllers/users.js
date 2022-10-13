@@ -43,7 +43,7 @@ module.exports.getUsers = (req, res) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((users) => res.send({ data: users }))
+    .then((users) => res.send({ users }))
     .catch((err) => {
       if (err.name === 'Error not Found') {
         return res.status(ErrorNotFound).send({ message: 'Error not found' });
@@ -61,7 +61,7 @@ module.exports.getOneUser = (req, res) => {
       throw error;
     })
     .then((user) => {
-      res.send({ data: user });
+      res.send({ user });
     })
     .catch((err) => {
       if (err.name === 'Error not found') {
@@ -74,7 +74,7 @@ module.exports.getOneUser = (req, res) => {
 };
 
 module.exports.getCurrentUser = (req, res) => {
-  User.findById({ _id: req.user._id })
+  User.findById(req.user._id)
     .orFail(() => {
       const error = new Error('no user with that id');
       error.name = 'Error not found';
@@ -104,7 +104,7 @@ module.exports.updateUserInfo = (req, res) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((updatedUser) => res.send({ data: updatedUser }))
+    .then((updatedUser) => res.send({ updatedUser }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(ValidationError).send({ message: 'Error bad request, a validation error has occured' });
@@ -131,7 +131,7 @@ module.exports.updateUserAvatar = (req, res) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((updatedUser) => res.send({ data: updatedUser }))
+    .then((updatedUser) => res.send({ updatedUser }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(ValidationError).send({ message: 'Error bad request, a validation error has occured' });

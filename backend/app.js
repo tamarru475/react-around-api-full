@@ -11,17 +11,17 @@ const { errors } = require('celebrate');
 
 var cors = require('cors');
 
+const { MONGODB_URI = 'mongodb://localhost:27017/aroundb' } = process.env;
 const { PORT = 3000 } = process.env;
 
 const app = express();
-
+mongoose.connect(MONGODB_URI);
 app.use(cors({ origin: '*' }));
 app.options('*', cors());
 
 app.use(helmet());
 app.use(limiter);
 app.disable('x-powered-by');
-mongoose.connect('mongodb://localhost:27017/aroundb');
 app.use(express.json());
 
 app.use(requestLogger);
