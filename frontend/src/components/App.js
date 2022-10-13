@@ -15,8 +15,9 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 import ValidationContext, {
   errorMessages,
 } from "../contexts/ValidationContext";
-import api from "../utils/api";
+import Api from "../utils/api";
 import * as auth from "../utils/auth";
+
 
 function App() {
   const history = useHistory();
@@ -50,6 +51,13 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [valid, setValid] = React.useState(true);
 
+  const api = new Api({
+    baseUrl: "https://api.tamarru.students.nomoredomainssbs.ru/",
+    headers: {
+      authorization: accesToken,
+      "Content-Type": "application/json",
+    },
+  });
 
 
   /// Initial requests from api ///
