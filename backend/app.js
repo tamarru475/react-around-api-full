@@ -14,6 +14,13 @@ var cors = require('cors');
 const { PORT = 3000 } = process.env;
 
 const app = express();
+
+app.use(cors({
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, GET, PUT, PATCH, DELETE',
+}));
+app.options('*', cors());
+
 app.use(helmet());
 app.use(limiter);
 app.disable('x-powered-by');
@@ -24,9 +31,6 @@ app.use(requestLogger);
 
 app.post('/signup', createUser);
 app.post('/login', login);
-
-app.use(cors());
-app.options('*', cors());
 
 app.use(auth);
 
