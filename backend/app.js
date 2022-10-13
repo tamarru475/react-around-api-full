@@ -9,7 +9,7 @@ const limiter = require('./rateLimit');
 const centralizedError = require('./middleware/centralizedErrors');
 const { errors } = require('celebrate');
 
-
+var cors = require('cors');
 
 const { PORT = 3000 } = process.env;
 
@@ -21,6 +21,9 @@ mongoose.connect('mongodb://localhost:27017/aroundb');
 app.use(express.json());
 
 app.use(requestLogger);
+
+app.use(cors());
+app.options('*', cors());
 
 app.post('/signup', createUser);
 app.post('/login', login);
