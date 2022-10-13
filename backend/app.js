@@ -22,11 +22,11 @@ app.use(express.json());
 
 app.use(requestLogger);
 
-app.use(cors());
-app.options('*', cors());
-
 app.post('/signup', createUser);
 app.post('/login', login);
+
+app.use(cors());
+app.options('*', cors());
 
 app.use(auth);
 
