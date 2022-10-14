@@ -16,7 +16,6 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 mongoose.connect(MONGODB_URI);
-console.log(mongoose.connection.readyState);
 app.use(cors({ origin: '*' }));
 app.options('*', cors());
 
@@ -33,6 +32,7 @@ app.post('/login', login);
 app.use(auth);
 
 app.use('/', mainRouter);
+console.log(mongoose.connection.readyState);
 
 app.use((req, res) => {
   res.status(404).send({ message: 'Requested resource not found' });
