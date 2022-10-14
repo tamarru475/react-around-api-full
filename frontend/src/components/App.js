@@ -21,7 +21,7 @@ import * as auth from "../utils/auth";
 
 function App() {
   const history = useHistory();
-  /// token hooks ///
+
   const [accesToken, setAccessToken] = React.useState(localStorage.getItem('jwt'));
   /// Register & Login hook ///
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -54,7 +54,7 @@ function App() {
   const api = new Api({
     baseUrl: "https://api.tamarru.students.nomoredomainssbs.ru/",
     headers: {
-      authorization: accesToken,
+      authorization: `Bearer ${accesToken}`,
       "Content-Type": "application/json",
     },
   });
@@ -175,7 +175,6 @@ function App() {
         if (res) {
           setEmail(res.data.email);
           setIsLoggedIn(true);
-          setAccessToken('jwt', jwt);
           history.push('/homepage');
 
         }

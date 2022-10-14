@@ -1,3 +1,4 @@
+import React from 'react';
 
 const customFetch = (url, header) =>
   fetch(url, header).then((res) =>
@@ -81,7 +82,6 @@ class Api {
     });
   }
 }
-
 
 
 
