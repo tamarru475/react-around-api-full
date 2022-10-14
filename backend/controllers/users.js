@@ -111,7 +111,7 @@ module.exports.updateUserInfo = (req, res) => {
       } if (err.name === 'Error not found') {
         return res.statu(err.statusCode).send({ message: `${err.name} ${err.statusCode} has accured ${err.message}` });
       } if (err.name === 'CastError') {
-        return res.status(ValidationError).send({ message: 'The Id number provided is invalid' });
+        return res.status(err.statusCode).send(err.message, req.user._id);
       }
       return res.status(500).send({ message: 'An error has occurred on the server' });
     });
