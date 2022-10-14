@@ -67,7 +67,7 @@ module.exports.getOneUser = (req, res) => {
       if (err.name === 'Error not found') {
         return res.status(ErrorNotFound).send({ message: 'Error not found, there is no user with this Id' });
       } if (err.name === 'CastError') {
-        return res.status(ValidationError).send({ message: 'The Id number provided is invalid' });
+        return res.status(err.statusCode).send({ message: `The Id number provided is invalid ${req.user_id}` });
       }
       return res.status(SeverError).send({ message: 'An error has occurred on the server' });
     });
