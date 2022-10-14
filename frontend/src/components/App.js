@@ -64,7 +64,7 @@ function App() {
 
   React.useEffect(() => {
     tokenCheck();
-  }, [])
+  }, [accesToken])
 
   React.useEffect(() => {
     api
