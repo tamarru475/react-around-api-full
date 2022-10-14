@@ -3,7 +3,7 @@ const helmet = require('helmet');
 const mongoose = require('mongoose');
 const { requestLogger, errorLogger } = require('./middleware/logger');
 const mainRouter = require('./routes/index');
-const { login, createUser, getCurrentUser } = require('./controllers/users');
+const { login, createUser } = require('./controllers/users');
 const auth = require('./middleware/auth');
 const limiter = require('./rateLimit');
 const centralizedError = require('./middleware/centralizedErrors');
@@ -29,7 +29,6 @@ app.use(requestLogger);
 app.post('/signup', createUser);
 app.post('/login', login);
 
-app.get('/users/me', getCurrentUser);
 
 app.use(auth);
 

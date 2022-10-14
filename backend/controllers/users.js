@@ -74,7 +74,6 @@ module.exports.getOneUser = (req, res) => {
 };
 
 module.exports.getCurrentUser = (req, res) => {
-  console.log(req.user_id);
   User.findById(req.user._id)
     .orFail(() => {
       const error = new Error('no user with that id');
