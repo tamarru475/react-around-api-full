@@ -70,7 +70,8 @@ function App() {
 
   React.useEffect(() => {
     const token = localStorage.getItem('jwt');
-    api
+    if (token) {
+      api
       .getUserInfo(token)
       .then((userData) => {
         setCurrentUser({
@@ -83,11 +84,13 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
+    }
   }, []);
 
   React.useEffect(() => {
     const token = localStorage.getItem('jwt');
-    api
+    if (token) {
+     api
       .getInitialCards(token)
       .then((cardsArray) => {
         console.log(cardsArray);
@@ -95,8 +98,9 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-      })
-  }, []);
+      });
+    }   
+  }, [console.log(cards)]);
 
   /// Popup open/close handlers ///
 
@@ -162,7 +166,7 @@ function App() {
     auth.login(values)
       .then((user) => {
         console.log(user);
-        setCurrentUser(user);
+        setCurrentUser(user.user);
         setIsLoggedIn(true);
         setEmail(values.email);
         history.push('/homepage');

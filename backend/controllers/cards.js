@@ -14,7 +14,8 @@ module.exports.getCards = (req, res) => {
       throw error;
     })
     .then((cards) => {
-      res.send(cards)
+      console.log(cards);
+      res.send(cards);
     })
     .catch((err) => {
       console.log(err)

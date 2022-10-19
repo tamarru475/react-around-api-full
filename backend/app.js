@@ -8,11 +8,12 @@ const auth = require('./middleware/auth');
 const limiter = require('./rateLimit');
 const centralizedError = require('./middleware/centralizedErrors');
 const { errors } = require('celebrate');
+require('dotenv').config();
 
 var cors = require('cors');
 
 const { MONGODB_URI = 'mongodb://localhost:27017/aroundb' } = process.env;
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 
 const app = express();
 mongoose.connect(MONGODB_URI);
@@ -25,6 +26,12 @@ app.disable('x-powered-by');
 app.use(express.json());
 
 app.use(requestLogger);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Server will crash now');
+  }, 0);
+});
 
 app.post('/signup', createUser);
 app.post('/login', login);
