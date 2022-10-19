@@ -90,6 +90,7 @@ function App() {
   React.useEffect(() => {
     const token = localStorage.getItem('jwt');
     if (token) {
+      console.log('im here');
      api
       .getInitialCards(token)
       .then((cardsArray) => {
@@ -100,7 +101,7 @@ function App() {
         console.log(err);
       });
     }   
-  }, [console.log(cards)]);
+  }, [currentUser]);
 
   /// Popup open/close handlers ///
 

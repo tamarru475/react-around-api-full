@@ -8,7 +8,6 @@ const auth = require('./middleware/auth');
 const limiter = require('./rateLimit');
 const centralizedError = require('./middleware/centralizedErrors');
 const { errors } = require('celebrate');
-require('dotenv').config();
 
 var cors = require('cors');
 
