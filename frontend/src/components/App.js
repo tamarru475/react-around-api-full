@@ -15,14 +15,12 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 import ValidationContext, {
   errorMessages,
 } from "../contexts/ValidationContext";
-import Api from "../utils/api";
+import api from "../utils/api";
 import * as auth from "../utils/auth";
 
 
 function App() {
   const history = useHistory();
-
-  const [accesToken, setAccessToken] = React.useState(localStorage.getItem('jwt'));
   /// Register & Login hook ///
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isRegisterSuccess, setIsRegisterSeccess] = React.useState(false);
@@ -51,24 +49,29 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [valid, setValid] = React.useState(true);
 
-  const api = new Api({
-    baseUrl: "https://api.tamarru.students.nomoredomainssbs.ru/",
-    headers: {
-      authorization: `Bearer ${accesToken}`,
-      "Content-Type": "application/json",
-    },
-  });
 
 
   /// Initial requests from api ///
 
   React.useEffect(() => {
-    tokenCheck();
-  }, [accesToken])
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      auth.getContent(jwt).then((res) => {
+        if (res) {
+          setEmail(res.email);
+          setIsLoggedIn(true);
+          history.push('/homepage');
+
+        }
+      })
+        .catch(err => console.log(err))
+    }
+  }, []);
 
   React.useEffect(() => {
+    const token = localStorage.getItem('jwt');
     api
-      .getUserInfo()
+      .getUserInfo(token)
       .then((userData) => {
         setCurrentUser({
           avatar: userData.avatar,
@@ -83,14 +86,16 @@ function App() {
   }, []);
 
   React.useEffect(() => {
+    const token = localStorage.getItem('jwt');
     api
-      .getInitialCards()
-      .then((cardsData) => {
-        setCards(cardsData);
+      .getInitialCards(token)
+      .then((cardsArray) => {
+        console.log(cardsArray);
+        setCards(cardsArray);
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
   }, []);
 
   /// Popup open/close handlers ///
@@ -155,7 +160,9 @@ function App() {
 
   function handleLoginSubmit(values) {
     auth.login(values)
-      .then(() => {
+      .then((user) => {
+        console.log(user);
+        setCurrentUser(user);
         setIsLoggedIn(true);
         setEmail(values.email);
         history.push('/homepage');
@@ -168,20 +175,6 @@ function App() {
 
   }
 
-  function tokenCheck() {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      auth.getContent(jwt).then((res) => {
-        if (res) {
-          setEmail(res.data.email);
-          setIsLoggedIn(true);
-          history.push('/homepage');
-
-        }
-      })
-        .catch(err => console.log(err))
-    }
-  }
 
   function handleSignout() {
     localStorage.removeItem('jwt');
@@ -190,9 +183,10 @@ function App() {
 
   /// Likes & Delete Card ///
   function handleCardLike(card) {
-    const isLiked = card.likes.some((user) => user._id === currentUser._id);
+    const token = localStorage.getItem('jwt');
+    const isLiked = !card.likes || card.likes.length === 0 ? false : card.likes.some((user) => user === currentUser._id);
     api
-      .changeLikeCardStatus(card._id, !isLiked)
+      .changeLikeCardStatus(card._id, !isLiked, token)
       .then((newCard) => {
         setCards((state) =>
           state.map((currentCard) =>
@@ -206,8 +200,9 @@ function App() {
   }
 
   function handleCardDelete(card) {
+    const token = localStorage.getItem('jwt');
     api
-      .deleteCard(card._id)
+      .deleteCard(card._id, token)
       .then(() => {
         const newCards = cards.filter((currentCard) => {
           return currentCard._id !== card._id;
@@ -222,9 +217,11 @@ function App() {
 
   /// After Submit updaters ///
   function handleUpdateAvatar(inputData) {
+    const token = localStorage.getItem('jwt');
     api
-      .setUserAavatar(inputData)
+      .setUserAavatar(inputData, token)
       .then((updatedInfo) => {
+        console.log(updatedInfo)
         setCurrentUser({
           ...currentUser,
           avatar: updatedInfo.avatar,
@@ -237,9 +234,11 @@ function App() {
   }
 
   function handleUpdateUser(inputData) {
+    const token = localStorage.getItem('jwt');
     api
-      .setUserInfo(inputData)
+      .setUserInfo(inputData, token)
       .then((updatedInfo) => {
+        console.log(updatedInfo);
         setCurrentUser({
           ...currentUser,
           name: updatedInfo.name,
@@ -249,19 +248,21 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
   }
-
   function handleAddPlaceSubmit(inputData) {
+    const token = localStorage.getItem('jwt');
     api
-      .setNewCard(inputData)
+      .setNewCard(inputData, token)
       .then((newCard) => {
+        console.log(cards);
+        console.log(newCard);
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
       .catch((err) => {
         console.log(err);
-      });
+      }).finally(cards);
   }
 
   return (

@@ -4,16 +4,15 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 export default function Card(props) {
   const currentUser = React.useContext(CurrentUserContext);
 
-  const isOwn = props.card.owner._id === currentUser._id;
-  const cardTrashButtonClassName = `gallery__card-trash-button ${
-    isOwn ? "gallery__card-trash-button_active" : ""
-  }`;
+  const isOwn = props.card.owner === currentUser._id;
+  const cardTrashButtonClassName = `gallery__card-trash-button ${isOwn ? "gallery__card-trash-button_active" : ""}`;
 
-  const isLiked = props.card.likes.some((user) => user._id === currentUser._id);
+  const isLiked = !props.card.likes || props.card.likes.length === 0 ? false : props.card.likes.some((user) => user === currentUser._id);
 
-  const cardLikeButtonClassName = `gallery__card-like_button ${
-    isLiked ? "gallery__card-like_button_active" : ""
-  }`;
+  const cardLikeButtonClassName = `gallery__card-like_button ${!props.card.likes || props.card.likes === 0 ? "" : (isLiked ? "gallery__card-like_button_active" : "")}`;
+
+  const likeCounter = !props.card.likes ? '0' : props.card.likes.length;
+
 
   function handleImageClick() {
     props.onCardClick(props.card);
@@ -48,7 +47,7 @@ export default function Card(props) {
             onClick={handleLikeClick}
           />
           <div className="gallery__card-like_counter">
-            {props.card.likes.length}
+            {likeCounter}
           </div>
         </div>
       </div>

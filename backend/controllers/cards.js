@@ -13,8 +13,11 @@ module.exports.getCards = (req, res) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((cards) => res.send({ cards }))
+    .then((cards) => {
+      res.send(cards)
+    })
     .catch((err) => {
+      console.log(err)
       if (err.name === 'Error not Found') {
         return res.status(ErrorNotFound).send({ message: 'Error not found' });
       }
@@ -25,8 +28,9 @@ module.exports.getCards = (req, res) => {
 module.exports.createCard = (req, res) => {
   const { name, link } = req.body;
   Card.create({ name, link, owner: req.user._id })
-    .then((card) => res.send({ card }))
+    .then((card) => res.send(card))
     .catch((err) => {
+      console.log(err);
       if (err.name === 'ValidationError') {
         return res.status(ValidationError).send({ message: 'Error bad request, a validation error has occured' });
       }
@@ -64,7 +68,7 @@ module.exports.likeCard = (req, res) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((liked) => res.send({ liked }))
+    .then((liked) => res.send(liked))
     .catch((err) => {
       if (err.name === 'Error not found') {
         return res.status(err.statusCode).send({ message: `${err.name} ${err.statusCode} has accured ${err.message}` });
@@ -76,6 +80,7 @@ module.exports.likeCard = (req, res) => {
 };
 
 module.exports.dislikeCard = (req, res) => {
+  console.log('this is happening!');
   Card.findByIdAndUpdate(req.params.cardId, { $pull: { likes: req.user._id } }, { new: true })
     .orFail(() => {
       const error = new Error('no user with that id');
@@ -83,8 +88,9 @@ module.exports.dislikeCard = (req, res) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((dislikeCard) => res.send({ dislikeCard }))
+    .then((dislikeCard) => res.send(dislikeCard))
     .catch((err) => {
+      console.log(err);
       if (err.name === 'notFoundError') {
         return res.statu(err.statusCode).send({ message: `${err.name} ${err.statusCode} has accured ${err.message}` });
       } if (err.name === 'CastError') {

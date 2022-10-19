@@ -7,6 +7,7 @@ function checkRespose(res) {
 
 
 export const BASE_URL = "https://api.tamarru.students.nomoredomainssbs.ru";
+// export const BASE_URL = "http://localhost:3001";
 
 export const register = ({ email, password }) => {
     return fetch(`${BASE_URL}/signup`, {
@@ -54,7 +55,7 @@ export const getContent = (token) => {
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
         }
     })
         .then(checkRespose)
