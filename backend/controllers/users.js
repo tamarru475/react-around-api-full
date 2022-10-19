@@ -13,8 +13,11 @@ module.exports.createUser = (req, res) => {
   bcrypt.hash(password, 10)
     .then(hash => User.create({ email, password: hash, name, about, avatar })
       .then((user) => {
+        user.remove(password);
         res.send({ user });
-      }))
+      })
+      .catch((err) => console.log(err, 'create user'))
+    )
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(ValidationError).send({ message: 'Error bad request, a validation error has occured' });
@@ -27,10 +30,12 @@ module.exports.login = (req, res) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
+      console.log(user)
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
-      res.send({ token });
+      res.send({ token, user });
     })
     .catch((err) => {
+      console.log(err, 'login')
       return res.status(AuthorizationError).send({ message: err.message });
     })
 }
@@ -45,6 +50,7 @@ module.exports.getUsers = (req, res) => {
     })
     .then((users) => res.send({ users }))
     .catch((err) => {
+      console.log(err, 'get users')
       if (err.name === 'Error not Found') {
         return res.status(ErrorNotFound).send({ message: 'Error not found' });
       }
@@ -53,6 +59,7 @@ module.exports.getUsers = (req, res) => {
 };
 
 module.exports.getOneUser = (req, res) => {
+  console.log('whos calling me ?!');
   User.findById(req.params.id)
     .orFail(() => {
       const error = new Error('no user with that id');
@@ -64,16 +71,19 @@ module.exports.getOneUser = (req, res) => {
       res.send({ user });
     })
     .catch((err) => {
+      console.log(err, 'get one user')
       if (err.name === 'Error not found') {
         return res.status(ErrorNotFound).send({ message: 'Error not found, there is no user with this Id' });
       } if (err.name === 'CastError') {
-        return res.status(err.statusCode).send({ message: `The Id number provided is invalid ${req.user_id}` });
+        return res.status(AuthorizationError).send({ message: `The Id number provided is invalid ${req.user_id}` });
       }
       return res.status(SeverError).send({ message: 'An error has occurred on the server' });
     });
 };
 
 module.exports.getCurrentUser = (req, res) => {
+  console.log('call me!');
+  console.log({ _id: req.user._id });
   User.findOne({ _id: req.user._id })
     .orFail(() => {
       const error = new Error('no user with that id');
@@ -83,10 +93,11 @@ module.exports.getCurrentUser = (req, res) => {
     })
     .then(user => res.send(user))
     .catch((err) => {
+      console.log(err, 'get current user')
       if (err.name === 'Error not Found') {
         return res.status(ErrorNotFound).send({ message: 'Error not found' });
       }
-      return res.status(err.statusCode).send(err.message, req.user._id);
+      return res.status(SeverError).send(err.message, req.user._id);
     });
 }
 
@@ -104,8 +115,9 @@ module.exports.updateUserInfo = (req, res) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((updatedUser) => res.send({ updatedUser }))
+    .then((updatedUser) => res.send(updatedUser.value))
     .catch((err) => {
+      console.log(err, 'update user info')
       if (err.name === 'ValidationError') {
         return res.status(ValidationError).send({ message: 'Error bad request, a validation error has occured' });
       } if (err.name === 'Error not found') {
@@ -113,7 +125,7 @@ module.exports.updateUserInfo = (req, res) => {
       } if (err.name === 'CastError') {
         return res.status(err.statusCode).send(err.message, req.user._id);
       }
-      return res.status(500).send({ message: 'An error has occurred on the server' });
+      return res.status(SeverError).send({ message: 'An error has occurred on the server' });
     });
 };
 
@@ -131,8 +143,9 @@ module.exports.updateUserAvatar = (req, res) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((updatedUser) => res.send({ updatedUser }))
+    .then((updatedUser) => res.send(updatedUser.value))
     .catch((err) => {
+      console.log(err, 'update user avatar')
       if (err.name === 'ValidationError') {
         return res.status(ValidationError).send({ message: 'Error bad request, a validation error has occured' });
       } if (err.name === 'Error not found') {
@@ -140,6 +153,6 @@ module.exports.updateUserAvatar = (req, res) => {
       } if (err.name === 'CastError') {
         return res.status(ValidationError).send({ message: 'The Id number provided is invalid' });
       }
-      return res.status(500).send({ message: 'An error has occurred on the server' });
+      return res.status(SeverError).send({ message: 'An error has occurred on the server' });
     });
 };
