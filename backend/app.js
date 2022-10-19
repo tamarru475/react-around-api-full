@@ -12,7 +12,7 @@ const { errors } = require('celebrate');
 var cors = require('cors');
 
 const { MONGODB_URI = 'mongodb://localhost:27017/aroundb' } = process.env;
-const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
 
 const app = express();
 mongoose.connect(MONGODB_URI);
