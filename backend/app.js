@@ -23,7 +23,7 @@ app.use(limiter);
 app.disable('x-powered-by');
 app.use(express.json());
 
-app.use(cors());
+app.use(cors({origin: '*'}));
 app.options('*', cors());
 
 app.use(requestLogger);
