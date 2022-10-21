@@ -8,10 +8,10 @@ const auth = require('./middleware/auth');
 const limiter = require('./rateLimit');
 const centralizedError = require('./middleware/centralizedErrors');
 const { errors } = require('celebrate');
-const path = require('path');
+
 
 var cors = require('cors');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
+require('dotenv').config({ path: '../.env' })
 
 const { MONGODB_URI = 'mongodb://localhost:27017/aroundb' } = process.env;
 const { PORT = 3000 } = process.env;
