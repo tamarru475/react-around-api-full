@@ -11,7 +11,7 @@ const { errors } = require('celebrate');
 
 
 var cors = require('cors');
-require('dotenv').config({ path: '../.env' })
+require('dotenv').config({ path: '.../.env' })
 
 const { MONGODB_URI = 'mongodb://localhost:27017/aroundb' } = process.env;
 const { PORT = 3000 } = process.env;
@@ -23,7 +23,7 @@ app.use(limiter);
 app.disable('x-powered-by');
 app.use(express.json());
 
-app.use(cors({origin: '*'}));
+app.use(cors());
 app.options('*', cors());
 
 app.use(requestLogger);
