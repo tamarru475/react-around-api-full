@@ -18,12 +18,13 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 mongoose.connect(MONGODB_URI);
-app.use(cors());
-app.options('*', cors());
 app.use(helmet());
 app.use(limiter);
 app.disable('x-powered-by');
 app.use(express.json());
+
+app.use(cors());
+app.options('*', cors());
 
 app.use(requestLogger);
 
