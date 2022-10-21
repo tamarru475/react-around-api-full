@@ -16,7 +16,7 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 mongoose.connect(MONGODB_URI);
-app.use(cors({ origin: '*' }));
+app.use(cors());
 app.options('*', cors());
 
 app.use(helmet());
