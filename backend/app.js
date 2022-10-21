@@ -18,20 +18,12 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 mongoose.connect(MONGODB_URI);
+app.use(cors());
+app.options('*', cors());
 app.use(helmet());
 app.use(limiter);
 app.disable('x-powered-by');
 app.use(express.json());
-
-app.use(cors());
-app.options('*', cors());
-
-app.use((req, res, next) => {
-  res.append('Access-Control-Allow-Origin', '*');
-  res.append('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
-  res.append('Access-Control-Allow-Headers', 'Content-Type, authorization');
-  next();
-});
 
 app.use(requestLogger);
 
