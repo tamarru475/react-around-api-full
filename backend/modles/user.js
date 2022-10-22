@@ -52,12 +52,12 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(email,
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(new Error('email or password are incorrect'));
+        return Promise.reject(new Error('email or password are incorrect 1'));
       }
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            return Promise.reject(new Error('email or password are incorrect'));
+            return Promise.reject(new Error('email or password are incorrect 2'));
           }
           return user;
         })

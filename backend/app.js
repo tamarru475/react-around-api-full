@@ -10,7 +10,7 @@ const centralizedError = require('./middleware/centralizedErrors');
 const { errors } = require('celebrate');
 
 
-var cors = require('cors');
+const cors = require('cors');
 require('dotenv').config({ path: '../.env' })
 
 const { MONGODB_URI = 'mongodb://localhost:27017/aroundb' } = process.env;
