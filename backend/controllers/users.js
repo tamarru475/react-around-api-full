@@ -99,7 +99,7 @@ module.exports.getCurrentUser = (req, res) => {
       if (err.name === 'Error not Found') {
         return res.status(ErrorNotFound).send({ message: 'Error not found' });
       }
-      return res.status(SeverError).send(err.message, req.user._id);
+      return res.status(SeverError).send({ message: 'An error has occurred on the server' });
     });
 }
 
