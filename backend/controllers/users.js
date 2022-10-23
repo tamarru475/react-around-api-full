@@ -13,7 +13,6 @@ module.exports.createUser = (req, res) => {
   bcrypt.hash(password, 10)
     .then(hash => User.create({ email, password: hash, name, about, avatar })
       .then((user) => {
-        user.remove(password);
         res.send({ user });
       })
       .catch((err) => console.log(err, 'create user'))
@@ -30,7 +29,6 @@ module.exports.login = (req, res) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      user.remove(password);
       console.log(user);
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
         { expiresIn: '7d' });
