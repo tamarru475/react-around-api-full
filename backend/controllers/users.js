@@ -13,9 +13,7 @@ module.exports.createUser = (req, res) => {
   bcrypt.hash(password, 10)
     .then(hash => User.create({ email, password: hash, name, about, avatar })
       .then((user) => {
-        delete user[password];
-        console.log(user);
-        res.send({ user });
+        res.send({ _id: user._id, email: user.email, name: user.name, about: user.about, avatar: user.avatar });
       })
       .catch((err) => res.status(SeverError).send({ message: `An error has occurred on the server  ${err.message}` }))
     )
@@ -31,7 +29,6 @@ module.exports.login = (req, res) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      console.log(user);
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
         { expiresIn: '7d' });
       res.send({ token, user });

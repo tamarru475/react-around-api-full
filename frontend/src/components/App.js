@@ -223,7 +223,6 @@ function App() {
     api
       .setUserAavatar(inputData, token)
       .then((updatedInfo) => {
-        console.log(updatedInfo)
         setCurrentUser({
           ...currentUser,
           avatar: updatedInfo.avatar,
@@ -240,7 +239,6 @@ function App() {
     api
       .setUserInfo(inputData, token)
       .then((updatedInfo) => {
-        console.log(updatedInfo);
         setCurrentUser({
           ...currentUser,
           name: updatedInfo.name,
