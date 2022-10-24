@@ -72,35 +72,33 @@ function App() {
     const token = localStorage.getItem('jwt');
     if (token) {
       api
-      .getUserInfo(token)
-      .then((userData) => {
-        setCurrentUser({
-          avatar: userData.avatar,
-          about: userData.about,
-          name: userData.name,
-          _id: userData._id,
+        .getUserInfo(token)
+        .then((userData) => {
+          setCurrentUser({
+            avatar: userData.avatar,
+            about: userData.about,
+            name: userData.name,
+            _id: userData._id,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
     }
   }, []);
 
   React.useEffect(() => {
     const token = localStorage.getItem('jwt');
     if (token) {
-      console.log('im here');
-     api
-      .getInitialCards(token)
-      .then((cardsArray) => {
-        console.log(cardsArray);
-        setCards(cardsArray);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    }   
+      api
+        .getInitialCards(token)
+        .then((cardsArray) => {
+          setCards(cardsArray);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, [currentUser]);
 
   /// Popup open/close handlers ///
@@ -166,7 +164,6 @@ function App() {
   function handleLoginSubmit(values) {
     auth.login(values)
       .then((user) => {
-        console.log(user);
         setCurrentUser(user.user);
         setIsLoggedIn(true);
         setEmail(values.email);
@@ -260,8 +257,6 @@ function App() {
     api
       .setNewCard(inputData, token)
       .then((newCard) => {
-        console.log(cards);
-        console.log(newCard);
         setCards([newCard, ...cards]);
         closeAllPopups();
       })

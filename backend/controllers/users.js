@@ -13,15 +13,17 @@ module.exports.createUser = (req, res) => {
   bcrypt.hash(password, 10)
     .then(hash => User.create({ email, password: hash, name, about, avatar })
       .then((user) => {
+        delete user[password];
+        console.log(user);
         res.send({ user });
       })
-      .catch((err) => console.log(err, 'create user'))
+      .catch((err) => res.status(SeverError).send({ message: `An error has occurred on the server  ${err.message}` }))
     )
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(ValidationError).send({ message: 'Error bad request, a validation error has occured' });
       }
-      return res.status(SeverError).send({ message: err.message });
+      return res.status(SeverError).send({ message: 'An error has occurred on the server' });
     });
 };
 
@@ -35,7 +37,6 @@ module.exports.login = (req, res) => {
       res.send({ token, user });
     })
     .catch((err) => {
-      console.log(err, 'login')
       return res.status(AuthorizationError).send({ message: err.message });
     })
 }
@@ -50,7 +51,6 @@ module.exports.getUsers = (req, res) => {
     })
     .then((users) => res.send({ users }))
     .catch((err) => {
-      console.log(err, 'get users')
       if (err.name === 'Error not Found') {
         return res.status(ErrorNotFound).send({ message: 'Error not found' });
       }
@@ -59,7 +59,6 @@ module.exports.getUsers = (req, res) => {
 };
 
 module.exports.getOneUser = (req, res) => {
-  console.log('whos calling me ?!');
   User.findById(req.params.id)
     .orFail(() => {
       const error = new Error('no user with that id');
@@ -71,7 +70,6 @@ module.exports.getOneUser = (req, res) => {
       res.send({ user });
     })
     .catch((err) => {
-      console.log(err, 'get one user')
       if (err.name === 'Error not found') {
         return res.status(ErrorNotFound).send({ message: 'Error not found, there is no user with this Id' });
       } if (err.name === 'CastError') {
@@ -82,8 +80,6 @@ module.exports.getOneUser = (req, res) => {
 };
 
 module.exports.getCurrentUser = (req, res) => {
-  console.log('call me!');
-  console.log({ _id: req.user._id });
   User.findOne({ _id: req.user._id })
     .orFail(() => {
       const error = new Error('no user with that id');
@@ -93,7 +89,6 @@ module.exports.getCurrentUser = (req, res) => {
     })
     .then(user => res.send(user))
     .catch((err) => {
-      console.log(err, 'get current user')
       if (err.name === 'Error not Found') {
         return res.status(ErrorNotFound).send({ message: 'Error not found' });
       }
@@ -117,7 +112,6 @@ module.exports.updateUserInfo = (req, res) => {
     })
     .then((updatedUser) => res.send(updatedUser.value))
     .catch((err) => {
-      console.log(err, 'update user info')
       if (err.name === 'ValidationError') {
         return res.status(ValidationError).send({ message: 'Error bad request, a validation error has occured' });
       } if (err.name === 'Error not found') {
@@ -145,7 +139,6 @@ module.exports.updateUserAvatar = (req, res) => {
     })
     .then((updatedUser) => res.send(updatedUser.value))
     .catch((err) => {
-      console.log(err, 'update user avatar')
       if (err.name === 'ValidationError') {
         return res.status(ValidationError).send({ message: 'Error bad request, a validation error has occured' });
       } if (err.name === 'Error not found') {
