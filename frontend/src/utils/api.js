@@ -102,7 +102,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: "http://localhost:3001",
+  baseUrl: "https://api.tamarru.students.nomoredomainssbs.ru",
   headers: {
     "Content-Type": "application/json",
   },
