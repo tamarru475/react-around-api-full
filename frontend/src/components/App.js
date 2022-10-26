@@ -151,7 +151,7 @@ function App() {
   function handleRegistrationSubmit(values) {
     auth.register(values).then(() => {
       setIsRegisterSeccess(true);
-      history.push('/login');
+      history.push('/signin');
     })
       .catch((err) => {
         console.log(err);
@@ -180,7 +180,7 @@ function App() {
 
   function handleSignout() {
     localStorage.removeItem('jwt');
-    history.push('/login');
+    history.push('/signin');
   }
 
   /// Likes & Delete Card ///
@@ -329,7 +329,7 @@ function App() {
             onRegisterSubmit={handleRegistrationSubmit} />
         </div>
       </Route>
-      <Route path="/login">
+      <Route path="/signin">
         <div className="loginContainer">
           <Login isValid={valid}
             onValidityChange={setValid}
@@ -343,7 +343,7 @@ function App() {
         {isLoggedIn ? (
           <Redirect to="/homepage" />
         ) : (
-          <Redirect to="/login" />
+          <Redirect to="/signin" />
         )}
       </Route>
     </Switch>

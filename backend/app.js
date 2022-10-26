@@ -1,18 +1,16 @@
 const express = require('express');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
+const { celebrate, Joi, errors } = require('celebrate');
+const cors = require('cors');
 const { requestLogger, errorLogger } = require('./middleware/logger');
 const mainRouter = require('./routes/index');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middleware/auth');
 const limiter = require('./rateLimit');
 const centralizedError = require('./middleware/centralizedErrors');
-const { celebrate, Joi, errors } = require('celebrate');
 
-
-
-const cors = require('cors');
-require('dotenv').config({ path: '../.env' })
+require('dotenv').config({ path: '../.env' });
 
 const { MONGODB_URI = 'mongodb://localhost:27017/aroundb' } = process.env;
 const { PORT = 3000 } = process.env;
@@ -38,11 +36,15 @@ app.get('/crash-test', () => {
 app.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required().min(8)
+    password: Joi.string().required().min(8),
   }),
 }), createUser);
-app.post('/login', login);
-
+app.post('/signin', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required().min(8),
+  }),
+}), login);
 
 app.use(auth);
 

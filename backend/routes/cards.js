@@ -1,30 +1,43 @@
 const cardsRouter = require('express').Router();
+const { celebrate, Joi } = require('celebrate');
+const validator = require('validator');
 const {
   getCards, createCard, deleteCardById, likeCard, dislikeCard,
 } = require('../controllers/cards');
-const { celebrate, Joi } = require('celebrate');
-const validator = require('validator');
+const ValidationError = require('../errors/validation-error');
 
 const validateURL = (value, helpers) => {
   if (validator.isURL(value)) {
     return value;
   }
   return helpers.error('string.uri');
-}
+};
 
 cardsRouter.get('/cards', getCards);
 
 cardsRouter.post('/cards', celebrate({
   body: Joi.object().keys({
-    name: Joi.string().alphanum().required().min(2).max(30),
-    link: Joi.string().required().custom(validateURL)
+    name: Joi.string().required().min(2).max(30),
+    link: Joi.string().required().custom(validateURL),
   }),
 }), createCard);
 
-cardsRouter.put('/cards/:cardId/likes', likeCard);
+cardsRouter.put('/cards/:cardId/likes', celebrate({
+  body: Joi.object().keys({
+    _id: Joi.string().hex().length(24).error(new ValidationError('Invalid ID')),
+  }),
+}), likeCard);
 
-cardsRouter.delete('/cards/:cardId/likes', dislikeCard);
+cardsRouter.delete('/cards/:cardId/likes', celebrate({
+  body: Joi.object().keys({
+    _id: Joi.string().hex().length(24).error(new ValidationError('Invalid ID')),
+  }),
+}), dislikeCard);
 
-cardsRouter.delete('/cards/:cardId', deleteCardById);
+cardsRouter.delete('/cards/:cardId', celebrate({
+  body: Joi.object().keys({
+    _id: Joi.string().hex().length(24).error(new ValidationError('Invalid ID')),
+  }),
+}), deleteCardById);
 
 module.exports = cardsRouter;

@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-
+const AuthorizationError = require('../errors/authorization-error');
 
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
     unique: true,
-    validate: [validator.isEmail, 'invalid email']
+    validate: [validator.isEmail, 'invalid email'],
   },
   password: {
     type: String,
@@ -47,27 +47,22 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-
 userSchema.statics.findUserByCredentials = function findUserByCredentials(email, password) {
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        const error = new Error('email or password are incorrect');
-        error.statusCode = 401;
-        error.name = 'Authentication error'
+        const error = new AuthorizationError('email or password are incorrect');
         return Promise.reject(error);
       }
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            const error = new Error('email or password are incorrect');
-            error.statusCode = 401;
-            error.name = 'Authentication error'
+            const error = new AuthorizationError('email or password are incorrect');
             return Promise.reject(error);
           }
           return user;
-        })
-    })
-}
+        });
+    });
+};
 
 module.exports = mongoose.model('user', userSchema);

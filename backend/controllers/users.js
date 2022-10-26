@@ -2,68 +2,87 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../modles/user');
 const { NODE_ENV, JWT_SECRET } = require('../config');
-
+const NotFoundError = require('../errors/not-found-error');
+const ConflictError = require('../errors/conflict-error');
 
 module.exports.createUser = (req, res, next) => {
-  const { email, password, name, about, avatar } = req.body;
-  bcrypt.hash(password, 10)
-    .then(hash => User.create({ email, password: hash, name, about, avatar })
-      .then((user) => {
-        res.send({ _id: user._id, email: user.email, name: user.name, about: user.about, avatar: user.avatar });
-      })
-      .catch(err => next(err))
-    )
-    .catch(err => next(err))
+  const {
+    email, password, name, about, avatar,
+  } = req.body;
+  User.findOne({ email })
+    .then((existingUser) => {
+      if (existingUser) {
+        throw new ConflictError('user already exists');
+      }
+      bcrypt.hash(password, 10)
+        .then((hash) => User.create({
+          email, password: hash, name, about, avatar,
+        })
+          .then((user) => {
+            res.send({
+              _id: user._id,
+              email: user.email,
+              name: user.name,
+              about: user.about,
+              avatar: user.avatar,
+            });
+          })
+          .catch((err) => next(err)));
+    })
+    .catch((err) => next(err));
 };
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
-        { expiresIn: '7d' });
-      res.send({ token, user });
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        { expiresIn: '7d' },
+      );
+      res.send({
+        token,
+        user: {
+          _id: user._id,
+          email: user.email,
+          name: user.name,
+          about: user.about,
+          avatar: user.avatar,
+        },
+      });
     })
-    .catch(err => next(err))
-}
+    .catch((err) => next(err));
+};
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
     .orFail(() => {
-      const error = new Error('no user with that id');
-      error.name = 'Error not found';
-      error.statusCode = 404;
-      throw error;
+      throw new NotFoundError('No users found');
     })
     .then((users) => res.send({ users }))
-    .catch(err => next(err))
+    .catch((err) => next(err));
 };
 
 module.exports.getOneUser = (req, res, next) => {
   User.findById(req.params.id)
     .orFail(() => {
-      const error = new Error('no user with that id');
-      error.name = 'Error not found';
-      error.statusCode = 404;
-      throw error;
+      throw new NotFoundError('No user with that id');
     })
     .then((user) => {
       res.send({ user });
     })
-    .catch(err => next(err))
+    .catch((err) => next(err));
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
   User.findOne({ _id: req.user._id })
     .orFail(() => {
-      const error = new Error('no user with that id');
-      error.name = 'Error not found';
-      error.statusCode = 404;
-      throw error;
+      throw new NotFoundError('No user with that id');
     })
-    .then(user => res.send(user))
-    .catch(err => next(err))
-}
+    .then((user) => res.send(user))
+    .catch((err) => next(err));
+};
 
 module.exports.updateUserInfo = (req, res, next) => {
   const { name, about } = req.body;
@@ -74,13 +93,10 @@ module.exports.updateUserInfo = (req, res, next) => {
     rawResult: true,
   })
     .orFail(() => {
-      const error = new Error('no user with that id');
-      error.name = 'Error not found';
-      error.statusCode = 404;
-      throw error;
+      throw new NotFoundError('No user with that id');
     })
     .then((updatedUser) => res.send(updatedUser.value))
-    .catch(err => next(err))
+    .catch((err) => next(err));
 };
 
 module.exports.updateUserAvatar = (req, res, next) => {
@@ -92,11 +108,8 @@ module.exports.updateUserAvatar = (req, res, next) => {
     rawResult: true,
   })
     .orFail(() => {
-      const error = new Error('no user with that id');
-      error.name = 'Error not found';
-      error.statusCode = 404;
-      throw error;
+      throw new NotFoundError('No user with that id');
     })
     .then((updatedUser) => res.send(updatedUser.value))
-    .catch(err => next(err))
+    .catch((err) => next(err));
 };
