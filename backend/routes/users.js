@@ -15,7 +15,7 @@ usersRouter.patch('/users/me/avatar', updateUserAvatar);
 
 usersRouter.get('/users/:id', celebrate({
   params: Joi.object().keys({
-    _id: Joi.string().hex().length(24).error(new ValidationError('Invalid ID')),
+    id: Joi.string().hex().length(24).error(new ValidationError('Invalid ID')),
   }),
 }), getOneUser);
 

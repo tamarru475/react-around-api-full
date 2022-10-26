@@ -24,19 +24,19 @@ cardsRouter.post('/cards', celebrate({
 
 cardsRouter.put('/cards/:cardId/likes', celebrate({
   params: Joi.object().keys({
-    _id: Joi.string().hex().length(24).error(new ValidationError('Invalid ID')),
+    cardId: Joi.string().hex().length(24).error(new ValidationError('Invalid ID')),
   }),
 }), likeCard);
 
 cardsRouter.delete('/cards/:cardId/likes', celebrate({
   params: Joi.object().keys({
-    _id: Joi.string().hex().length(24).error(new ValidationError('Invalid ID')),
+    cardId: Joi.string().hex().length(24).error(new ValidationError('Invalid ID')),
   }),
 }), dislikeCard);
 
 cardsRouter.delete('/cards/:cardId', celebrate({
   params: Joi.object().keys({
-    _id: Joi.string().hex().length(24).error(new ValidationError('Invalid ID')),
+    cardId: Joi.string().hex().length(24).error(new ValidationError('Invalid ID')),
   }),
 }), deleteCardById);
 
