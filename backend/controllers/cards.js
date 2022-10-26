@@ -21,15 +21,22 @@ module.exports.createCard = (req, res, next) => {
 };
 
 module.exports.deleteCardById = (req, res, next) => {
-  Card.findByIdAndDelete(req.params.cardId)
+  Card.findById(req.params.cardId)
     .orFail(() => {
       throw new NotFoundError('No Card with that id');
     })
-    .then((card) => {
-      if (req.user_id !== card.owner) {
+    .then((usersCard) => {
+      if (req.user._id !== usersCard.owner.valueOf()) {
         throw new ForbiddenError('Forbidden Error');
       }
-      res.send({ card });
+      Card.findByIdAndDelete(req.params.cardId)
+        .orFail(() => {
+          throw new NotFoundError('No Card with that id');
+        })
+        .then((card) => {
+          res.send({ card });
+        })
+        .catch((err) => next(err));
     })
     .catch((err) => next(err));
 };
